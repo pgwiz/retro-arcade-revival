@@ -1,7 +1,14 @@
 [package]
 name = "backend"
 version = "0.1.0"
-description = "Motoko backend canister"
+
+[build]
+outputDir = "src/backend/dist"
+args = [ "--release" ]
+check-wasm = true
+
+[canisters.backend]
+main = "src/backend/main.mo"
 
 [dependencies]
 base = "0.11.1"

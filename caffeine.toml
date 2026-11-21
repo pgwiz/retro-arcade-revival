@@ -1,7 +1,11 @@
 manifest_version = "0.1.0"
 
 [project]
+id = "retro-arcade-revival"
 name = "retro-arcade-revival"
 
 [workspace]
 include = ["src/**"]
+
+[canisters.frontend]
+depends_on = ["backend"]
