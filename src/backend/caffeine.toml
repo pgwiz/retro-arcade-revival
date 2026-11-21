@@ -1,0 +1,4 @@
+[canister]
+name = "backend"
+type = "motoko"
+main = "main.mo"

@@ -1,0 +1,5 @@
+[canister]
+name = "frontend"
+type = "assets"
+build = "npm run build"
+output = "dist"
