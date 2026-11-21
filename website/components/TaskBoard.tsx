@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { CheckSquare, Clock, AlertCircle, Sparkles, Filter, CheckCircle2 } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { CheckSquare, Clock, Sparkles, Filter, CheckCircle2, Search, X, GitPullRequest, ArrowUpRight } from "lucide-react";
 
 interface Task {
   id: string;
@@ -37,7 +37,7 @@ const INITIAL_TASKS: Task[] = [
     status: "completed",
     category: "Web UI",
     assignee: "Community",
-    summary: "Next.js community portal featuring roadmap tracking, community recommendation submissions, and playable canvas demo.",
+    summary: "Next.js community portal featuring roadmap tracking, community recommendation submissions, and playable canvas demo with 8-bit sound.",
   },
   {
     id: "TASK-003",
@@ -133,13 +133,35 @@ export default function TaskBoard() {
   const [selectedPhase, setSelectedPhase] = useState<number | "all">("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [selectedEngine, setSelectedEngine] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const filteredTasks = INITIAL_TASKS.filter((task) => {
-    if (selectedPhase !== "all" && task.phase !== selectedPhase) return false;
-    if (selectedStatus !== "all" && task.status !== selectedStatus) return false;
-    if (selectedEngine !== "all" && task.engine !== selectedEngine) return false;
-    return true;
-  });
+  const filteredTasks = useMemo(() => {
+    return INITIAL_TASKS.filter((task) => {
+      if (selectedPhase !== "all" && task.phase !== selectedPhase) return false;
+      if (selectedStatus !== "all" && task.status !== selectedStatus) return false;
+      if (selectedEngine !== "all" && task.engine !== selectedEngine) return false;
+      if (searchQuery.trim() !== "") {
+        const query = searchQuery.toLowerCase();
+        const matchTitle = task.title.toLowerCase().includes(query);
+        const matchGame = task.game.toLowerCase().includes(query);
+        const matchSummary = task.summary.toLowerCase().includes(query);
+        const matchEngine = task.engine.toLowerCase().includes(query);
+        const matchId = task.id.toLowerCase().includes(query);
+        if (!matchTitle && !matchGame && !matchSummary && !matchEngine && !matchId) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [selectedPhase, selectedStatus, selectedEngine, searchQuery]);
+
+  // Overall milestone statistics
+  const totalCount = INITIAL_TASKS.length;
+  const completedCount = INITIAL_TASKS.filter((t) => t.status === "completed").length;
+  const inProgressCount = INITIAL_TASKS.filter((t) => t.status === "in_progress").length;
+  const phase1Tasks = INITIAL_TASKS.filter((t) => t.phase === 1);
+  const phase1Done = phase1Tasks.filter((t) => t.status === "completed").length;
+  const progressPercent = Math.round((completedCount / totalCount) * 100);
 
   const getStatusBadge = (status: Task["status"]) => {
     switch (status) {
@@ -210,7 +232,7 @@ export default function TaskBoard() {
                   : "bg-[#131A26] border-[#26354D] text-[#8E9EB5] hover:text-white"
               }`}
             >
-              All Phases
+              All Phases ({INITIAL_TASKS.length})
             </button>
             <button
               onClick={() => setSelectedPhase(1)}
@@ -220,7 +242,7 @@ export default function TaskBoard() {
                   : "bg-[#131A26] border-[#26354D] text-[#8E9EB5] hover:text-white"
               }`}
             >
-              Phase 1: 2D Foundations
+              Phase 1: 2D Foundations ({phase1Tasks.length})
             </button>
             <button
               onClick={() => setSelectedPhase(2)}
@@ -230,7 +252,7 @@ export default function TaskBoard() {
                   : "bg-[#131A26] border-[#26354D] text-[#8E9EB5] hover:text-white"
               }`}
             >
-              Phase 2: Classic Arcade
+              Phase 2: Classic Arcade (2)
             </button>
             <button
               onClick={() => setSelectedPhase(3)}
@@ -240,75 +262,149 @@ export default function TaskBoard() {
                   : "bg-[#131A26] border-[#26354D] text-[#8E9EB5] hover:text-white"
               }`}
             >
-              Phase 3: 3D Classics
+              Phase 3: 3D Classics (2)
             </button>
           </div>
         </div>
 
-        {/* Filter controls */}
-        <div className="p-3 mb-6 rounded-lg bg-[#131A26] border border-[#26354D] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-          <div className="flex items-center gap-2 text-[#8E9EB5]">
-            <Filter className="w-3.5 h-3.5" />
-            <span>FILTER ENGINE:</span>
-            {["all", "Godot 4", "Rust", "C", "Python", "Shared Core"].map((eng) => (
+        {/* Milestone Progress Bar */}
+        <div className="mb-6 p-4 rounded-lg bg-[#131A26] border border-[#26354D]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2 text-xs font-mono">
+            <div className="flex items-center gap-3">
+              <span className="text-white font-bold">Phase 1 Progress:</span>
+              <span className="text-emerald-400">{phase1Done} of {phase1Tasks.length} Completed</span>
+              <span className="text-slate-500">·</span>
+              <span className="text-blue-400">{inProgressCount} In Progress</span>
+            </div>
+            <div className="text-[#8E9EB5]">
+              Overall Completion: <span className="text-white font-bold">{progressPercent}%</span>
+            </div>
+          </div>
+          <div className="w-full h-2 rounded bg-[#0A0E17] border border-[#1E293B] overflow-hidden flex">
+            <div
+              className="h-full bg-emerald-500 transition-all duration-300"
+              style={{ width: `${(completedCount / totalCount) * 100}%` }}
+              title={`Completed: ${completedCount}`}
+            />
+            <div
+              className="h-full bg-blue-500 transition-all duration-300"
+              style={{ width: `${(inProgressCount / totalCount) * 100}%` }}
+              title={`In Progress: ${inProgressCount}`}
+            />
+          </div>
+        </div>
+
+        {/* Filter controls & Search */}
+        <div className="p-4 mb-6 rounded-lg bg-[#131A26] border border-[#26354D] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 text-xs font-mono">
+          {/* Search box */}
+          <div className="relative flex-1 max-w-md">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search by game, task title, keyword..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-8 py-2 rounded bg-[#0A0E17] border border-[#26354D] text-slate-200 placeholder-slate-500 text-xs focus:outline-none focus:border-blue-500"
+            />
+            {searchQuery && (
               <button
-                key={eng}
-                onClick={() => setSelectedEngine(eng)}
-                className={`px-2.5 py-1 rounded border transition-colors ${
-                  selectedEngine === eng
-                    ? "bg-slate-700 border-slate-500 text-white"
-                    : "border-transparent text-[#8E9EB5] hover:text-slate-200"
-                }`}
+                onClick={() => setSearchQuery("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
               >
-                {eng.toUpperCase()}
+                <X className="w-3.5 h-3.5" />
               </button>
-            ))}
+            )}
           </div>
 
-          <div className="flex items-center gap-2 text-[#8E9EB5]">
-            <span>STATUS:</span>
-            {["all", "in_progress", "next_up", "completed"].map((st) => (
-              <button
-                key={st}
-                onClick={() => setSelectedStatus(st)}
-                className={`px-2 py-1 rounded border transition-colors ${
-                  selectedStatus === st
-                    ? "bg-slate-700 border-slate-500 text-white"
-                    : "border-transparent text-[#8E9EB5] hover:text-slate-200"
-                }`}
-              >
-                {st.replace("_", " ").toUpperCase()}
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-1.5 text-[#8E9EB5]">
+              <Filter className="w-3.5 h-3.5 text-blue-400" />
+              <span className="text-[11px]">ENGINE:</span>
+              {["all", "Godot 4", "Rust", "C", "Python"].map((eng) => (
+                <button
+                  key={eng}
+                  onClick={() => setSelectedEngine(eng)}
+                  className={`px-2 py-1 rounded border transition-colors text-[11px] ${
+                    selectedEngine === eng
+                      ? "bg-slate-700 border-slate-500 text-white"
+                      : "border-transparent text-[#8E9EB5] hover:text-slate-200"
+                  }`}
+                >
+                  {eng.toUpperCase()}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-1.5 text-[#8E9EB5]">
+              <span className="text-[11px]">STATUS:</span>
+              {["all", "in_progress", "next_up", "completed"].map((st) => (
+                <button
+                  key={st}
+                  onClick={() => setSelectedStatus(st)}
+                  className={`px-2 py-1 rounded border transition-colors text-[11px] ${
+                    selectedStatus === st
+                      ? "bg-slate-700 border-slate-500 text-white"
+                      : "border-transparent text-[#8E9EB5] hover:text-slate-200"
+                  }`}
+                >
+                  {st.replace("_", " ").toUpperCase()}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Tasks Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredTasks.map((task) => (
-            <div
-              key={task.id}
-              className="p-5 rounded-lg bg-[#131A26] border border-[#26354D] flex flex-col justify-between hover:border-[#374B6B] transition-all"
+        {filteredTasks.length === 0 ? (
+          <div className="p-12 text-center rounded-lg bg-[#131A26] border border-[#26354D]">
+            <p className="text-sm font-mono text-[#8E9EB5] mb-2">No tasks found matching your filter criteria.</p>
+            <button
+              onClick={() => {
+                setSelectedPhase("all");
+                setSelectedStatus("all");
+                setSelectedEngine("all");
+                setSearchQuery("");
+              }}
+              className="text-xs font-mono text-blue-400 hover:underline"
             >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="text-[11px] font-mono text-[#8E9EB5]">{task.id}</span>
-                  {getStatusBadge(task.status)}
+              Reset all filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredTasks.map((task) => (
+              <div
+                key={task.id}
+                className="p-5 rounded-lg bg-[#131A26] border border-[#26354D] flex flex-col justify-between hover:border-[#374B6B] transition-all"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="text-[11px] font-mono text-[#8E9EB5]">{task.id}</span>
+                    {getStatusBadge(task.status)}
+                  </div>
+
+                  <h3 className="font-bold text-white text-base mb-1.5">{task.title}</h3>
+                  <p className="text-xs text-[#8E9EB5] leading-relaxed mb-4">{task.summary}</p>
                 </div>
 
-                <h3 className="font-bold text-white text-base mb-1.5">{task.title}</h3>
-                <p className="text-xs text-[#8E9EB5] leading-relaxed mb-4">{task.summary}</p>
+                <div className="pt-3 border-t border-[#1F2A3D] flex items-center justify-between text-xs font-mono">
+                  <span className={`px-2 py-0.5 rounded border ${getEngineColor(task.engine)}`}>
+                    {task.engine}
+                  </span>
+                  <a
+                    href="https://github.com/pgwiz/retro-arcade-revival/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-slate-400 hover:text-blue-400 transition-colors"
+                  >
+                    <span>{task.assignee}</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
+                </div>
               </div>
-
-              <div className="pt-3 border-t border-[#1F2A3D] flex items-center justify-between text-xs font-mono">
-                <span className={`px-2 py-0.5 rounded border ${getEngineColor(task.engine)}`}>
-                  {task.engine}
-                </span>
-                <span className="text-slate-400">{task.assignee}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

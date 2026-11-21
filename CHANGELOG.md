@@ -5,6 +5,18 @@ All notable changes to the Retro Arcade Revival project will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] - 2026-11-21
+
+### Added
+- **Web Audio 8-Bit Chiptune Synth**: Built-in procedural sound generator in `PlayableDemo.tsx` for moves, rotations, drops, line clears, game over, and pause with persistent mute toggle.
+- **Arcade High Score Tracking**: Real-time record tracking with `localStorage` persistence and "NEW HIGH" achievement badge.
+- **Pause & Resume Mode**: Toggle pause via `P`, `Escape`, or on-screen controls with retro paused overlay.
+- **Mobile / Touch Virtual Controls**: Responsive virtual D-Pad and action buttons for mobile devices and tablets.
+- **Roadmap Progress & Search Filter**: Live completion percentage, Phase 1 progress bars, and multi-field text search in `TaskBoard.tsx`.
+- **Recommendation Sorting & Persistence**: "Most Upvoted" vs "Newest" sorting, 2D/3D filters, and `localStorage` persistence for proposals and votes in `RecommendationBoard.tsx`.
+- **Shared Core Libs Explorer**: Interactive switcher between engine architecture cards and shared core module integration in `TechStackMatrix.tsx`.
+- **Dedicated Caffeine AI Repository**: Isolated Caffeine AI branch to `https://github.com/pgwiz/retro-arcade-revival-caffeine` and restored clean pre-caffeine main branch.
+
 ## [0.1.2] - 2026-11-21
 
 ### Added

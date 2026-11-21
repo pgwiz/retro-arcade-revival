@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { ThumbsUp, PlusCircle, MessageSquare, Sparkles, Send, Check } from "lucide-react";
+import React, { useState, useEffect, useMemo } from "react";
+import { ThumbsUp, PlusCircle, Sparkles, Send, Check, ArrowUpDown, Filter, Search, X } from "lucide-react";
 
 interface Recommendation {
   id: string;
@@ -14,6 +14,7 @@ interface Recommendation {
   author: string;
   reason: string;
   hasVoted?: boolean;
+  createdAt?: number;
 }
 
 const INITIAL_RECOMMENDATIONS: Recommendation[] = [
@@ -27,6 +28,7 @@ const INITIAL_RECOMMENDATIONS: Recommendation[] = [
     votes: 42,
     author: "retro_dan",
     reason: "The mother of all artillery tank battle games! Destructible terrain, dynamic wind, shield defense, and MIRV missiles. Extremely underserved today.",
+    createdAt: 1700000000000,
   },
   {
     id: "REC-2",
@@ -38,6 +40,7 @@ const INITIAL_RECOMMENDATIONS: Recommendation[] = [
     votes: 38,
     author: "physics_coder",
     reason: "Godot 4's RigidBody3D is tailor-made for this. Narrow isometric aerial paths, marble momentum, and dynamic gravity obstacles.",
+    createdAt: 1700001000000,
   },
   {
     id: "REC-3",
@@ -49,6 +52,7 @@ const INITIAL_RECOMMENDATIONS: Recommendation[] = [
     votes: 35,
     author: "pixel_dev",
     reason: "Directing marching critters by assigning digger, blocker, and builder roles. Almost no modern open-source engine does this cleanly.",
+    createdAt: 1700002000000,
   },
   {
     id: "REC-4",
@@ -60,17 +64,19 @@ const INITIAL_RECOMMENDATIONS: Recommendation[] = [
     votes: 29,
     author: "puzzle_lover",
     reason: "Classic tile puzzles with sliding ice, locked colored doors, and chips to collect. Perfect fit for our shared grid mover library.",
+    createdAt: 1700003000000,
   },
   {
     id: "REC-5",
     title: "Wolfenstein / Corridor Raycaster",
     era: "1992",
     genre: "Shooter",
-    suggestedEngine: "C or Rust",
+    suggestedEngine: "C (Raylib)",
     dimension: "3D",
     votes: 24,
     author: "asm_fanatic",
     reason: "Pure DDA raycaster implementation. A fantastic educational project for anyone learning low-level rendering.",
+    createdAt: 1700004000000,
   },
 ];
 
@@ -78,6 +84,30 @@ export default function RecommendationBoard() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>(INITIAL_RECOMMENDATIONS);
   const [showForm, setShowForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [sortBy, setSortBy] = useState<"votes" | "recent">("votes");
+  const [dimensionFilter, setDimensionFilter] = useState<"all" | "2D" | "3D">("all");
+  const [engineFilter, setEngineFilter] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  // Load persisted recommendations and votes
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("retro_arcade_recs_v1");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setRecommendations(parsed);
+        }
+      }
+    } catch {}
+  }, []);
+
+  const saveRecommendations = (newRecs: Recommendation[]) => {
+    setRecommendations(newRecs);
+    try {
+      localStorage.setItem("retro_arcade_recs_v1", JSON.stringify(newRecs));
+    } catch {}
+  };
 
   const [formData, setFormData] = useState({
     title: "",
@@ -90,19 +120,18 @@ export default function RecommendationBoard() {
   });
 
   const handleVote = (id: string) => {
-    setRecommendations((prev) =>
-      prev.map((rec) => {
-        if (rec.id === id) {
-          const hasVoted = rec.hasVoted;
-          return {
-            ...rec,
-            votes: hasVoted ? rec.votes - 1 : rec.votes + 1,
-            hasVoted: !hasVoted,
-          };
-        }
-        return rec;
-      })
-    );
+    const updated = recommendations.map((rec) => {
+      if (rec.id === id) {
+        const hasVoted = rec.hasVoted;
+        return {
+          ...rec,
+          votes: hasVoted ? rec.votes - 1 : rec.votes + 1,
+          hasVoted: !hasVoted,
+        };
+      }
+      return rec;
+    });
+    saveRecommendations(updated);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -112,7 +141,7 @@ export default function RecommendationBoard() {
     const newRec: Recommendation = {
       id: `REC-${Date.now().toString().slice(-4)}`,
       title: formData.title.trim(),
-      era: formData.era.trim() || "Retro",
+      era: formData.era.trim() || "Retro Era",
       genre: formData.genre,
       suggestedEngine: formData.suggestedEngine,
       dimension: formData.dimension,
@@ -120,9 +149,10 @@ export default function RecommendationBoard() {
       author: formData.author.trim() || "Community Member",
       reason: formData.reason.trim(),
       hasVoted: true,
+      createdAt: Date.now(),
     };
 
-    setRecommendations([newRec, ...recommendations]);
+    saveRecommendations([newRec, ...recommendations]);
     setFormData({
       title: "",
       era: "",
@@ -138,6 +168,43 @@ export default function RecommendationBoard() {
       setShowForm(false);
     }, 1500);
   };
+
+  const filteredAndSorted = useMemo(() => {
+    let list = [...recommendations];
+
+    // Dimension filter
+    if (dimensionFilter !== "all") {
+      list = list.filter((r) => r.dimension === dimensionFilter);
+    }
+
+    // Engine filter
+    if (engineFilter !== "all") {
+      list = list.filter((r) => r.suggestedEngine.toLowerCase().includes(engineFilter.toLowerCase()));
+    }
+
+    // Search query
+    if (searchQuery.trim() !== "") {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(
+        (r) =>
+          r.title.toLowerCase().includes(q) ||
+          r.reason.toLowerCase().includes(q) ||
+          r.genre.toLowerCase().includes(q) ||
+          r.author.toLowerCase().includes(q)
+      );
+    }
+
+    // Sorting
+    if (sortBy === "votes") {
+      list.sort((a, b) => b.votes - a.votes);
+    } else {
+      list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    }
+
+    return list;
+  }, [recommendations, dimensionFilter, engineFilter, searchQuery, sortBy]);
+
+  const totalVotesCast = recommendations.reduce((acc, curr) => acc + curr.votes, 0);
 
   return (
     <section id="recommendations" className="py-14 border-b border-[#26354D] bg-[#0B0F17]">
@@ -155,13 +222,15 @@ export default function RecommendationBoard() {
             </p>
           </div>
 
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs font-mono transition-colors border border-blue-400"
-          >
-            <PlusCircle className="w-4 h-4" />
-            {showForm ? "CLOSE FORM" : "PROPOSE A GAME"}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs font-mono transition-colors border border-blue-400"
+            >
+              <PlusCircle className="w-4 h-4" />
+              {showForm ? "CLOSE FORM" : "PROPOSE A GAME"}
+            </button>
+          </div>
         </div>
 
         {/* Suggestion Form */}
@@ -295,49 +364,143 @@ export default function RecommendationBoard() {
           </form>
         )}
 
-        {/* Recommendations List */}
-        <div className="space-y-3">
-          {recommendations.map((rec) => (
-            <div
-              key={rec.id}
-              className="p-5 rounded-lg bg-[#131A26] border border-[#26354D] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:border-[#374B6B] transition-colors"
-            >
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                  <h3 className="font-bold text-white text-base">{rec.title}</h3>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#192233] border border-[#26354D] text-slate-300">
-                    {rec.era}
-                  </span>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-950/60 border border-blue-800 text-blue-300">
-                    {rec.genre}
-                  </span>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">
-                    {rec.suggestedEngine} · {rec.dimension}
-                  </span>
-                </div>
+        {/* Filter Bar: Sort, Dimension, Engine, Search */}
+        <div className="p-4 mb-6 rounded-lg bg-[#131A26] border border-[#26354D] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 text-xs font-mono">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search recommendations..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-8 py-2 rounded bg-[#0A0E17] border border-[#26354D] text-slate-200 placeholder-slate-500 text-xs focus:outline-none focus:border-blue-500"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
 
-                <p className="text-xs text-[#8E9EB5] leading-relaxed mb-2">{rec.reason}</p>
-                <div className="text-[11px] font-mono text-slate-500">
-                  Proposed by: <span className="text-slate-400">{rec.author}</span>
-                </div>
-              </div>
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Sort Toggle */}
+            <div className="flex items-center gap-1.5 text-[#8E9EB5]">
+              <ArrowUpDown className="w-3.5 h-3.5 text-blue-400" />
+              <button
+                onClick={() => setSortBy("votes")}
+                className={`px-2.5 py-1 rounded border transition-colors ${
+                  sortBy === "votes"
+                    ? "bg-blue-600 border-blue-500 text-white font-bold"
+                    : "border-transparent text-[#8E9EB5] hover:text-white"
+                }`}
+              >
+                MOST UPVOTED
+              </button>
+              <button
+                onClick={() => setSortBy("recent")}
+                className={`px-2.5 py-1 rounded border transition-colors ${
+                  sortBy === "recent"
+                    ? "bg-blue-600 border-blue-500 text-white font-bold"
+                    : "border-transparent text-[#8E9EB5] hover:text-white"
+                }`}
+              >
+                NEWEST
+              </button>
+            </div>
 
-              <div className="flex items-center gap-2 sm:self-center">
+            {/* Dimension Pills */}
+            <div className="flex items-center gap-1.5 text-[#8E9EB5]">
+              <span className="text-[11px]">DIMENSION:</span>
+              {(["all", "2D", "3D"] as const).map((dim) => (
                 <button
-                  onClick={() => handleVote(rec.id)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-md font-mono text-xs font-bold border transition-colors ${
-                    rec.hasVoted
-                      ? "bg-blue-600 border-blue-500 text-white"
-                      : "bg-[#192233] border-[#26354D] text-slate-300 hover:border-blue-500"
+                  key={dim}
+                  onClick={() => setDimensionFilter(dim)}
+                  className={`px-2 py-1 rounded border transition-colors text-[11px] ${
+                    dimensionFilter === dim
+                      ? "bg-slate-700 border-slate-500 text-white"
+                      : "border-transparent text-[#8E9EB5] hover:text-slate-200"
                   }`}
                 >
-                  <ThumbsUp className="w-3.5 h-3.5" />
-                  <span>{rec.votes}</span>
+                  {dim.toUpperCase()}
                 </button>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
+
+        {/* Stats banner */}
+        <div className="flex items-center justify-between text-xs font-mono text-[#8E9EB5] mb-4 px-1">
+          <div>
+            Showing <span className="text-white font-bold">{filteredAndSorted.length}</span> proposals
+          </div>
+          <div>
+            Total Upvotes Cast: <span className="text-blue-400 font-bold">{totalVotesCast}</span>
+          </div>
+        </div>
+
+        {/* Recommendations List */}
+        {filteredAndSorted.length === 0 ? (
+          <div className="p-12 text-center rounded-lg bg-[#131A26] border border-[#26354D]">
+            <p className="text-sm font-mono text-[#8E9EB5] mb-2">No recommendations match your search.</p>
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setDimensionFilter("all");
+                setEngineFilter("all");
+              }}
+              className="text-xs font-mono text-blue-400 hover:underline"
+            >
+              Reset filters
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {filteredAndSorted.map((rec) => (
+              <div
+                key={rec.id}
+                className="p-5 rounded-lg bg-[#131A26] border border-[#26354D] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:border-[#374B6B] transition-colors"
+              >
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                    <h3 className="font-bold text-white text-base">{rec.title}</h3>
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#192233] border border-[#26354D] text-slate-300">
+                      {rec.era}
+                    </span>
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-950/60 border border-blue-800 text-blue-300">
+                      {rec.genre}
+                    </span>
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">
+                      {rec.suggestedEngine} · {rec.dimension}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-[#8E9EB5] leading-relaxed mb-2">{rec.reason}</p>
+                  <div className="text-[11px] font-mono text-slate-500">
+                    Proposed by: <span className="text-slate-400">{rec.author}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 sm:self-center">
+                  <button
+                    onClick={() => handleVote(rec.id)}
+                    title={rec.hasVoted ? "Remove upvote" : "Upvote this proposal"}
+                    className={`flex items-center gap-2 px-3.5 py-2 rounded-md font-mono text-xs font-bold border transition-colors ${
+                      rec.hasVoted
+                        ? "bg-blue-600 border-blue-500 text-white"
+                        : "bg-[#192233] border-[#26354D] text-slate-300 hover:border-blue-500"
+                    }`}
+                  >
+                    <ThumbsUp className={`w-3.5 h-3.5 ${rec.hasVoted ? "fill-white" : ""}`} />
+                    <span>{rec.votes}</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
