@@ -10,9 +10,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded bg-[#131A26] border border-[#26354D] flex items-center justify-center">
-              <JoystickIcon size={20} />
-            </div>
+            <JoystickIcon size={26} className="shrink-0" />
             <div>
               <div className="font-bold text-slate-200 text-sm">RETRO ARCADE REVIVAL</div>
               <div className="text-[11px] text-[#64748B]">
