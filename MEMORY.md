@@ -44,4 +44,17 @@ This document records the architectural standards, technical decisions, and proj
   - Grid: 10 columns by 20 rows.
   - 7 standard 4-block polyomino shapes (I, O, T, S, Z, J, L) represented with distinct original color palettes.
   - Standard rotation tests, gravity speed scaling per level, line clear scoring, and hard/soft drop.
-- **Playable Web Demo**: Live playable canvas version built directly into `website/components/PlayableDemo.tsx`.
+- **Playable Web Demo**: Live playable canvas version built directly into `website/components/PlayableDemo.tsx` with Web Audio API 8-bit procedural sound synthesis, persistent high scores, pause/resume, and mobile virtual touch controls.
+
+---
+
+## 4. Repositories & Branches
+
+1. **`pgwiz/retro-arcade-revival` (Current Workspace / Main Project)**:
+   - Preserves pure clean-room multi-engine game architecture (Godot 4, Rust, C, Python) and Next.js web portal.
+   - Branch `main`: Current development branch with peak Web UI.
+   - Branch `caffeine-ai`: Preserves Caffeine AI configuration and canister builds.
+2. **`pgwiz/retro-arcade-revival-caffeine` (Dedicated Standalone Repo)**:
+   - Public repository at `https://github.com/pgwiz/retro-arcade-revival-caffeine`.
+   - Dedicated exclusively to Caffeine AI IC canister builds and Motoko backend artifacts.
+
