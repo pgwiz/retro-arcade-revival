@@ -10,5 +10,9 @@ check-wasm = true
 [canisters.backend]
 main = "src/backend/main.mo"
 
+[toolchain]
+moc = "2.1.0"
+lintoko = "0.12.0"
+
 [dependencies]
 base = "0.11.1"
