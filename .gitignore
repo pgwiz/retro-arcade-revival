@@ -1,0 +1,44 @@
+# Godot 4
+.godot/
+*.translation
+*.import
+
+# Godot Mono / C#
+.mono/
+[Bb]in/
+[Oo]bj/
+
+# Node / Web / Next.js
+node_modules/
+.next/
+out/
+dist/
+.env*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Rust
+target/
+Cargo.lock
+
+# C / C++ build outputs
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+build/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

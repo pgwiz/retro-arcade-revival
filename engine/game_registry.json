@@ -1,0 +1,90 @@
+{
+  "version": "0.1.0",
+  "updated_at": "2026-11-21",
+  "games": [
+    {
+      "id": "block_drop",
+      "title": "Block Drop",
+      "inspiration": "Falling polyomino arcade classic",
+      "genre": "Puzzle",
+      "dimension": "2D",
+      "phase": 1,
+      "status": "in_progress",
+      "lead_engine": "Godot 4",
+      "supported_engines": ["Godot 4", "Python", "Rust", "C"],
+      "path": "res://games/block_drop/game.tscn",
+      "summary": "Classic 10x20 falling tetromino matrix with rotational wall-kicks, line clearing, score scaling, and soft/hard drop.",
+      "controls": "Arrow keys / WASD to move and rotate, Space for hard drop, C to hold piece."
+    },
+    {
+      "id": "dot_maze",
+      "title": "Dot Maze",
+      "inspiration": "Labyrinth dot-munching arcade game",
+      "genre": "Arcade",
+      "dimension": "2D",
+      "phase": 2,
+      "status": "planned",
+      "lead_engine": "Godot 4",
+      "supported_engines": ["Godot 4", "Rust"],
+      "path": "res://games/dot_maze/game.tscn",
+      "summary": "Navigate a maze collecting pellets while evading four distinct pathfinding pursuers.",
+      "controls": "Arrow keys to turn at intersections."
+    },
+    {
+      "id": "cosmic_defenders",
+      "title": "Cosmic Defenders",
+      "inspiration": "Descending alien fleet shooter",
+      "genre": "Shooter",
+      "dimension": "2D",
+      "phase": 2,
+      "status": "planned",
+      "lead_engine": "Godot 4",
+      "supported_engines": ["Godot 4", "C", "Rust"],
+      "path": "res://games/cosmic_defenders/game.tscn",
+      "summary": "Defend the bottom baseline from waves of alien invaders with destructible bunkers.",
+      "controls": "Left/Right to slide, Space to fire."
+    },
+    {
+      "id": "brick_rebound",
+      "title": "Brick Rebound",
+      "inspiration": "Ball and paddle brick demolition",
+      "genre": "Arcade",
+      "dimension": "2D",
+      "phase": 1,
+      "status": "planned",
+      "lead_engine": "Godot 4",
+      "supported_engines": ["Godot 4", "Python", "C"],
+      "path": "res://games/brick_rebound/game.tscn",
+      "summary": "Direct a bouncing sphere with a sliding paddle to shatter colored brick formations.",
+      "controls": "Left/Right to move paddle, Space to launch ball."
+    },
+    {
+      "id": "marble_roll",
+      "title": "Marble Roll",
+      "inspiration": "Isometric / 3D obstacle ball navigation",
+      "genre": "Physics / 3D",
+      "dimension": "3D",
+      "phase": 3,
+      "status": "planned",
+      "lead_engine": "Godot 4",
+      "supported_engines": ["Godot 4"],
+      "path": "res://games/marble_roll/game.tscn",
+      "summary": "Steer a heavy rolling marble across narrow aerial ramps, slopes, and moving obstacles.",
+      "controls": "WASD / Analog stick for momentum, Camera follows sphere."
+    },
+    {
+      "id": "cube_snake",
+      "title": "Cube Snake 3D",
+      "inspiration": "Wrap-around cubic grid crawling puzzle",
+      "genre": "Puzzle / 3D",
+      "dimension": "3D",
+      "phase": 3,
+      "status": "planned",
+      "lead_engine": "Godot 4",
+      "supported_engines": ["Godot 4", "Rust"],
+      "path": "res://games/cube_snake/game.tscn",
+      "summary": "Control an elongated snake slithering across the 6 faces of a rotating 3D cube.",
+      "controls": "Direction keys turn snake relative to current cube surface."
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6xk4e7m4g2yq"]
+
+[ext_resource type="Script" path="res://engine/main.gd" id="1_main"]
+
+[node name="Launcher" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.0901961, 0.117647, 1)
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="VBox/Header"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "RETRO ARCADE REVIVAL"
+
+[node name="Tagline" type="Label" parent="VBox/Header"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.580392, 0.639216, 0.721569, 1)
+theme_override_font_sizes/font_size = 14
+text = "— Open-Source Vintage Game Engine"
+
+[node name="Separator" type="HSeparator" parent="VBox"]
+layout_mode = 2
+
+[node name="MainLayout" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="GamesScroll" type="ScrollContainer" parent="VBox/MainLayout"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="GamesList" type="VBoxContainer" parent="VBox/MainLayout/GamesScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="DetailsPanel" type="PanelContainer" parent="VBox/MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Margin" type="MarginContainer" parent="VBox/MainLayout/DetailsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="DetailsVBox" type="VBoxContainer" parent="VBox/MainLayout/DetailsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="VBox/MainLayout/DetailsPanel/Margin/DetailsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Select a Game"
+
+[node name="MetaLabel" type="Label" parent="VBox/MainLayout/DetailsPanel/Margin/DetailsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.6, 0.9, 1)
+theme_override_font_sizes/font_size = 13
+text = "Metadata"
+
+[node name="DescLabel" type="Label" parent="VBox/MainLayout/DetailsPanel/Margin/DetailsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+text = "Description will appear here."
+
+[node name="ControlsLabel" type="Label" parent="VBox/MainLayout/DetailsPanel/Margin/DetailsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+text = "Controls"
+
+[node name="Spacer" type="Control" parent="VBox/MainLayout/DetailsPanel/Margin/DetailsVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayButton" type="Button" parent="VBox/MainLayout/DetailsPanel/Margin/DetailsVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "▶ PLAY NOW"

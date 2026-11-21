@@ -1,0 +1,28 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; but since the parameters are written as plaintext, you can edit them here.
+
+config_version=5
+
+[application]
+
+config/name="Retro Arcade Revival"
+config/description="Open-source collection of classic arcade and retro PC game recreations."
+config/version="0.1.0"
+run/main_scene="res://engine/launcher.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=720
+window/size/resizable=true
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
