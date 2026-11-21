@@ -1,0 +1,10 @@
+{
+  "name": "@caffeine/retro-arcade-revival",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r --if-present run build",
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "check": "pnpm -r --if-present run check",
+    "fix": "pnpm -r --if-present run fix"
+  }
+}

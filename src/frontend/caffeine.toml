@@ -5,8 +5,11 @@ name = "frontend"
 type = "assets"
 
 [build]
-commands = ["npm run build"]
+commands = ["pnpm build"]
 out = "dist"
 
 [check]
-commands = ["npm run check"]
+commands = ["pnpm typecheck", "pnpm check"]
+
+[check.fix]
+commands = ["pnpm typecheck", "pnpm fix"]

@@ -11,3 +11,6 @@ out = "dist"
 
 [check]
 commands = ["mops check"]
+
+[check.fix]
+commands = ["mops check --fix"]

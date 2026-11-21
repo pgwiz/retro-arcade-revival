@@ -1,5 +1,3 @@
-import Text "mo:base/Text";
-
 actor {
   public query func getVersion() : async Text {
     "0.1.0"
