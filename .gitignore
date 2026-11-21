@@ -42,3 +42,8 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Archives / Upload bundles
+*.zip
+*.tar.gz
+*.tgz
