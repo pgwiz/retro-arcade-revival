@@ -2,14 +2,15 @@
 
 import React from "react";
 import { Terminal, Github, Gamepad2, Layers, CheckSquare, MessageSquare, Code2 } from "lucide-react";
+import JoystickIcon from "./JoystickIcon";
 
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#26354D] bg-[#0B0F17]/95 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <a href="#" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[#192233] border border-[#26354D] flex items-center justify-center text-blue-400 font-mono font-bold text-lg">
-            🕹️
+          <div className="w-10 h-10 rounded-lg bg-[#192233] border border-[#26354D] flex items-center justify-center">
+            <JoystickIcon size={24} />
           </div>
           <div>
             <div className="font-bold text-base tracking-wider text-slate-100 flex items-center gap-2">

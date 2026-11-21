@@ -81,7 +81,8 @@ retro-arcade-revival/
 │
 ├── tools/                       # Developer automation scripts
 │   ├── new_game.py              # CLI tool: Scaffolds a new game directory
-│   └── update_libs.py           # CLI tool: Validates & updates shared submodules
+│   ├── update_libs.py           # CLI tool: Validates & updates shared submodules
+│   └── security_check.py        # CLI tool: Audits security parameters (eval, shell, traversal)
 │
 ├── website/                     # Vercel-ready Next.js Web UI (Tasks, Suggestions, Roadmap)
 │   ├── app/                     # React Server Components & pages
@@ -126,6 +127,9 @@ python tools/new_game.py --name "my_game" --engine godot
 
 # Verify / update shared libraries
 python tools/update_libs.py
+
+# Run security audit on code and demos
+python tools/security_check.py
 ```
 
 ### Running the Community Web UI Locally

@@ -1,0 +1,92 @@
+import React from "react";
+
+interface JoystickIconProps {
+  className?: string;
+  size?: number;
+}
+
+export default function JoystickIcon({ className = "", size = 26 }: JoystickIconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 32 32"
+      width={size}
+      height={size}
+      fill="none"
+      className={className}
+    >
+      {/* Isometric Joystick Base */}
+      {/* Left Face */}
+      <polygon
+        points="5,19 16,24 16,28 5,23"
+        fill="#1E293B"
+        stroke="#0F172A"
+        strokeWidth="1"
+        strokeLinejoin="round"
+      />
+      {/* Right Face */}
+      <polygon
+        points="16,24 27,19 27,23 16,28"
+        fill="#0F172A"
+        stroke="#0F172A"
+        strokeWidth="1"
+        strokeLinejoin="round"
+      />
+      {/* Top Face */}
+      <polygon
+        points="16,14 27,19 16,24 5,19"
+        fill="#334155"
+        stroke="#0F172A"
+        strokeWidth="1"
+        strokeLinejoin="round"
+      />
+
+      {/* Red Action / Fire Button on Base */}
+      <ellipse
+        cx="10"
+        cy="18.5"
+        rx="1.8"
+        ry="1.2"
+        fill="#DC2626"
+        stroke="#991B1B"
+        strokeWidth="0.6"
+      />
+      <ellipse cx="10" cy="18.2" rx="1.2" ry="0.7" fill="#EF4444" />
+
+      {/* Joystick Center Collar */}
+      <ellipse cx="16" cy="19" rx="2.5" ry="1.4" fill="#0F172A" />
+
+      {/* Metal Shaft */}
+      <line
+        x1="16"
+        y1="19"
+        x2="16"
+        y2="10.5"
+        stroke="#94A3B8"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <line
+        x1="15.7"
+        y1="18.5"
+        x2="15.7"
+        y2="11"
+        stroke="#E2E8F0"
+        strokeWidth="0.8"
+      />
+
+      {/* Red Joystick Ball Top */}
+      <circle
+        cx="16"
+        cy="9"
+        r="3.6"
+        fill="#DC2626"
+        stroke="#991B1B"
+        strokeWidth="0.8"
+      />
+      <circle cx="16" cy="8.8" r="3.1" fill="#EF4444" />
+      {/* Specular Highlight (Crisp flat highlight) */}
+      <circle cx="14.8" cy="7.8" r="0.9" fill="#FCA5A5" />
+    </svg>
+  );
+}

@@ -5,6 +5,14 @@ All notable changes to the Retro Arcade Revival project will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-11-21
+
+### Added
+- Custom vector SVG isometric arcade joystick icon (`website/public/joystick.svg`, `website/components/JoystickIcon.tsx`, and root `icon.svg`).
+- Interactive demo mandate in `AGENT.md`: instructs AI agents to provide playable in-browser game demos whenever feasible.
+- Security verification tool `tools/security_check.py` with parameter checks for dynamic eval, subprocess execution, path traversal, and loop bounds.
+- Replaced header and footer icons with the custom isometric arcade joystick component.
+
 ## [0.1.1] - 2026-11-21
 
 ### Changed

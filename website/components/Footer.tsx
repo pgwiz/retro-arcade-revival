@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Github, Heart } from "lucide-react";
+import JoystickIcon from "./JoystickIcon";
 
 export default function Footer() {
   return (
@@ -9,7 +10,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <span className="text-xl">🕹️</span>
+            <div className="w-8 h-8 rounded bg-[#131A26] border border-[#26354D] flex items-center justify-center">
+              <JoystickIcon size={20} />
+            </div>
             <div>
               <div className="font-bold text-slate-200 text-sm">RETRO ARCADE REVIVAL</div>
               <div className="text-[11px] text-[#64748B]">
@@ -19,8 +22,8 @@ export default function Footer() {
           </div>
 
           <div className="text-center md:text-left max-w-xl text-[11px] text-[#64748B]">
-            All games in this repository are independent, clean-room recreations inspired by classic arcade mechanics.
-            Game rules and mathematical algorithms are not copyrightable. No proprietary trademarks, character artwork, or audio samples from original publishers are used.
+            All original code is free and open-source under the MIT License for educational and preservation purposes.
+            Product names, logos, and brands mentioned are property of their respective owners and used solely for identification.
           </div>
 
           <div className="flex items-center gap-4">
