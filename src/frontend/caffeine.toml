@@ -1,5 +1,12 @@
-[canister]
+manifest_version = "0.1.0"
+
+[project]
 name = "frontend"
 type = "assets"
-build = "npm run build"
-output = "dist"
+
+[build]
+commands = ["npm run build"]
+out = "dist"
+
+[check]
+commands = ["npm run check"]

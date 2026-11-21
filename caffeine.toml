@@ -1,12 +1,7 @@
+manifest_version = "0.1.0"
+
 [project]
 name = "retro-arcade-revival"
-version = "0.1.0"
-description = "Open-source classic retro arcade game engine and web hub"
 
-[canisters.backend]
-type = "motoko"
-path = "src/backend"
-
-[canisters.frontend]
-type = "assets"
-path = "src/frontend"
+[workspace]
+include = ["src/**"]
