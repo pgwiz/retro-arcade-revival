@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ShieldCheck, Code, GitPullRequest, Terminal, FileCode2, Cpu, CheckCircle } from "lucide-react";
+import { Shield, Code, GitPullRequest, Terminal, FileCode2, Cpu, CheckCircle } from "lucide-react";
 
 export default function CollaboratorPortal() {
   return (
@@ -16,39 +16,38 @@ export default function CollaboratorPortal() {
           </h2>
           <p className="text-sm text-[#8E9EB5] mt-2">
             Whether you build in Godot, Rust, C, or Python, you can contribute.
-            Follow these recommendations to ensure smooth PR merges and protect our open-source status.
+            Our codebase is 100% free and open source. Follow these quick steps to get started!
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          {/* Copyright & IP Safeguards */}
+          {/* Open Source Notice & Disclaimer */}
           <div className="p-6 rounded-xl bg-[#131A26] border border-[#26354D]">
             <div className="flex items-center gap-2.5 text-blue-400 font-mono font-bold text-base mb-4">
-              <ShieldCheck className="w-5 h-5 text-blue-400" />
-              CRITICAL: Copyright Avoidance Protocol
+              <Shield className="w-5 h-5 text-blue-400" />
+              Open Source Notice & Disclaimers
             </div>
 
             <p className="text-xs text-[#8E9EB5] leading-relaxed mb-4">
-              Game rules and mechanics cannot be copyrighted, but brand names, character artwork, logos, and audio recordings can.
-              To keep our project 100% open-source and legally sound:
+              This repository is a free, open-source initiative dedicated to digital game preservation and education.
             </p>
 
             <ul className="space-y-3 text-xs font-mono text-slate-300">
               <li className="flex items-start gap-2">
-                <span className="text-red-400 font-bold">❌</span>
-                <span><strong>No Trademarked Names:</strong> Do not use names like Tetris, Pac-Man, or Space Invaders. Use original descriptive names (e.g. <code>block_drop</code>, <code>dot_maze</code>).</span>
+                <span className="text-blue-400 font-bold">•</span>
+                <span><strong>100% Free & Open (MIT):</strong> All code is licensed under the permissive MIT license for everyone to use, learn from, and extend freely.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-red-400 font-bold">❌</span>
-                <span><strong>No Ripped Sprites:</strong> Never extract textures or graphics from original commercial ROMs. Create original pixel art or use vetted CC0 public domain assets.</span>
+                <span className="text-blue-400 font-bold">•</span>
+                <span><strong>As-Is / No Claims:</strong> Software is provided without warranty of any kind. Authors and contributors make no claims over third-party concepts.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-red-400 font-bold">❌</span>
-                <span><strong>No Sampled Sound Effects:</strong> Do not copy proprietary music files. Synthesize procedural 8-bit sound effects or compose original chiptune tracks.</span>
+                <span className="text-blue-400 font-bold">•</span>
+                <span><strong>Nominative Reference:</strong> References to classic arcade titles are used strictly for descriptive identification and historical context. No affiliation or endorsement is implied.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-emerald-400 font-bold">✅</span>
-                <span><strong>Clean-Room Mechanics:</strong> Implement gameplay rules cleanly from scratch using modern mathematics and standard physics loops.</span>
+                <span className="text-blue-400 font-bold">•</span>
+                <span><strong>All Stacks Welcome:</strong> Submit implementations in Godot, Rust, C, or Python.</span>
               </li>
             </ul>
           </div>

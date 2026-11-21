@@ -1,8 +1,8 @@
 # 🕹️ Retro Arcade Revival
 
 > **Open-source community recreation of classic PC & arcade-era games.**
-> Preserving vintage gameplay mechanics through clean, original implementations.
-> MIT Licensed · Multi-Engine Support (Godot, Rust, C, Python) · Zero Proprietary Assets.
+> Preserving vintage gameplay mechanics through clean, free, open-source code.
+> MIT Licensed · Multi-Engine Support (Godot, Rust, C, Python) · 100% Free Forever.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Godot 4](https://img.shields.io/badge/Godot-4.x-478CBF.svg)](https://godotengine.org)
@@ -14,26 +14,23 @@
 
 ## 🎯 Project Mission
 
-Vintage games from the 80s and 90s are foundational pieces of interactive culture, yet many are trapped in copyright limbo, abandoned digital store fronts, or difficult emulation setups.
+Vintage games from the 80s and 90s are foundational pieces of interactive history, yet many are trapped in digital abandonment or difficult emulation setups.
 
-**Retro Arcade Revival** brings these timeless mechanics back to life as **100% open-source, modern implementations**:
-1. **Zero Copyright Violations**: Original code, fresh pixel art, generated chiptunes, and distinct original branding.
+**Retro Arcade Revival** brings these timeless mechanics back to life as **100% free and open-source games**:
+1. **Free Code for Everyone**: All software is released under the permissive MIT license for educational, hobbyist, and historical preservation purposes.
 2. **Multi-Engine Freedom**: Primary development in **Godot 4**, with first-class support for **Rust**, **C**, and **Python**.
 3. **Modular Shared Library**: Common audio, input, UI, physics, and save-file abstractions reused across games.
 4. **Community Driven**: Anyone can suggest titles, vote on features, submit PRs, or port games to other stacks.
 
 ---
 
-## 🛡️ Intellectual Property & Copyright Guardrails
+## ⚖️ License & Legal Notices
 
-To protect contributors and keep this repository freely distributable forever, all contributors **must strictly follow these rules**:
+This project is a non-commercial, open-source initiative dedicated to video game history and computer science education.
 
-| Concern | Policy & Safe Practice |
-|---|---|
-| **Names & Trademarks** | ❌ Never use trademarked game titles in code, assets, or repository names.<br>✅ Use descriptive, original gameplay names (e.g. `block_drop` instead of Tetris, `dot_maze` instead of Pac-Man, `cosmic_defender` instead of Space Invaders). |
-| **Visual Art & Sprites** | ❌ Never rip sprites, textures, or logos from original ROMs/binaries.<br>✅ Draw original pixel art or use vetted CC0 public-domain assets. |
-| **Audio & Music** | ❌ Never sample original game sound effects or copyrighted theme songs.<br>✅ Compose original chiptunes (BeepBox, MilkyTracker) or synthesize retro SFX (sfxr/Bfxr). |
-| **Code & Algorithms** | ❌ Never decompile or copy proprietary source code.<br>✅ Re-implement gameplay mechanics cleanly from logic and mathematical rules. Game mechanics themselves are not copyrightable under international IP law. |
+- **100% Free Software**: All original code written for this project is freely available under the [MIT License](LICENSE).
+- **As-Is / No Claims**: All software is provided "AS IS", without warranty of any kind. Authors and contributors make no claims over third-party concepts and assume no liability.
+- **Nominative Fair Use**: Any references to historical titles, arcade machines, or companies are made purely for descriptive identification, educational comparison, and historical context. No affiliation, sponsorship, or endorsement by any original rights holders is claimed or implied.
 
 ---
 
@@ -54,9 +51,9 @@ We encourage community members to build games in the language/engine they love:
 
 We kick off development with our flagship title:
 - **Identifier**: `games/block_drop/`
-- **Lead Engine**: Godot 4 (with cross-reference Rust/C/Python specifications)
+- **Lead Engine**: Godot 4 (with companion Python, Rust, and C specifications)
 - **Mechanics**: 10x20 grid, 7 polyomino tetromino geometries, smooth rotation system, line clearing animations, score scaling, and instant drop.
-- **Shared Lib Usage**: Uses `shared/lib/input/input_manager.gd`, `shared/lib/audio/sfx_player.gd`, and `shared/lib/ui/hud.tscn`.
+- **Shared Lib Usage**: Uses `shared/input/input_manager.gd`, `shared/audio/sfx_player.gd`, and `shared/utils/save_manager.gd`.
 
 ---
 
@@ -108,11 +105,10 @@ We are actively looking for developers, pixel artists, sound designers, and test
 1. **Choose an unclaimed game** or pick a stack variant from the [Interactive Roadmap](https://retro-arcade-revival.vercel.app).
 2. **Run the generator**:
    ```bash
-   python tools/new_game.py --name "cosmic_defender" --engine godot
+   python tools/new_game.py --name "cosmic_defenders" --engine godot
    ```
-3. **Use the shared library**: Do not reinvent high score saving, pause menus, or audio managers. Hook into `shared/`.
-4. **Follow the copyright guardrails**: Keep names generic, code original, and assets CC0.
-5. **Submit a Pull Request**: Keep PRs focused on a single game or library module.
+3. **Use the shared library**: Save time by hooking into `shared/` for input, audio, and high scores.
+4. **Submit a Pull Request**: Keep PRs focused on a single game or library module.
 
 ---
 
@@ -145,4 +141,4 @@ npm run dev
 ## 📜 License
 
 Distributed under the **MIT License**. See [LICENSE](LICENSE) for full details.
-Original code & designs created by the Retro Arcade Revival community.
+Code is free for all. Contributions welcome!

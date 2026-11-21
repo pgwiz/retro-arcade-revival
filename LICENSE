@@ -22,13 +22,11 @@ SOFTWARE.
 
 ---
 
-IMPORTANT — ORIGINAL WORK NOTICE:
-All games in this repository are original implementations inspired by classic
-arcade-era gameplay concepts. Game mechanics are not subject to copyright.
-All assets (sprites, sounds, music) are either:
-  - Created originally by contributors
-  - Sourced from CC0 / Public Domain libraries
-  - Procedurally generated
-
-No proprietary assets, trademarks, or copyrighted names from original game
-publishers are used in this project.
+NOTICES & DISCLAIMER:
+- All code in this repository is free, open source, and created for educational,
+  research, and video game preservation purposes.
+- All product names, logos, trademarks, and registered trademarks mentioned are
+  the property of their respective owners.
+- Any use of historical game names or company names is strictly for identification,
+  historical context, and nominative reference.
+- No affiliation, endorsement, or claims of ownership are made.
